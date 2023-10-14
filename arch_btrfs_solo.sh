@@ -87,7 +87,7 @@ echo '[multilib]' >> /etc/pacman.conf
 echo 'Include = /etc/pacman.d/mirrorlist' >> /etc/pacman.conf
 pacman -Syy
 
-pacman -S --noconfirm tmux htop mc iotop lm_sensors smartmontools sudo ntfs-3g screen parted btop wpa_supplicant snapper openssh openbsd-netcat
+pacman -S --noconfirm tmux htop mc iotop lm_sensors smartmontools sudo ntfs-3g screen parted btop wpa_supplicant snapper openssh openbsd-netcat git
 
 touch /etc/resolv.conf
 cat << EOF >> /etc/resolv.conf
