@@ -100,7 +100,7 @@ sed -i 's/#PubkeyAuthentication yes/PubkeyAuthentication yes/g' /etc/ssh/sshd_co
 ###########################
 #-- samba ---
 chmod 777 /share
-pacman -S samba
+pacman -S samba --noconfirm
 touch /etc/samba/smb.conf
 cat << EOF >> /etc/samba/smb.conf
 [GLOBAL]
