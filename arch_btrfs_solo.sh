@@ -127,6 +127,7 @@ systemctl enable wpa_supplicant.service
 systemctl enable dhcpcd.service
 systemctl enable sshd.service
 
+pacman -S --noconfirm linux
 mkinitcpio -p linux
 pacman -S grub efibootmgr --noconfirm
 echo 'GRUB_CMDLINE_LINUX="iommu=pt intel_iommu=on pcie_acs_override=downstream,multifunction nofb"' >> /etc/default/grub
