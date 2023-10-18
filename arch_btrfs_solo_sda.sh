@@ -22,7 +22,7 @@ parted -s -- $disk mkpart primary 16GiB 100%
 parted -a optimal --script $disk name 4 btrfs
 #parted -a optimal --script $disk set 4 raid on
 
-mkfs.fat -F32 $diskp"2"
+mkfs.fat -F32 $disk"2"
 mkswap $disk"3"
 swapon $disk"3"
 mkfs.btrfs -f $disk"4" -L btrfs
