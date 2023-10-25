@@ -49,7 +49,7 @@ mount -o autodefrag,noatime,space_cache=v2,compress=zstd:3,discard=async,subvol=
 pacman -Sy --noconfirm --noprogressbar --quiet reflector
 pacman -S --noconfirm --needed --noprogressbar --quiet reflector
 reflector -l 3 --sort rate --protocol https --country Russia --save /etc/pacman.d/mirrorlist
-pacstrap /mnt/arch base base-devel linux linux-firmware nano dhcpcd netctl bash-completion linux-headers archlinux-keyring
+pacstrap /mnt/arch base base-devel linux-zen linux-firmware nano dhcpcd netctl bash-completion linux-zen-headers archlinux-keyring
 
 mount --types proc /proc /mnt/arch/proc && mount --rbind /sys /mnt/arch/sys && mount --make-rslave /mnt/arch/sys && mount --rbind /dev /mnt/arch/dev && mount --make-rslave /mnt/arch/dev && mount --bind /run /mnt/arch/run && mount --make-slave /mnt/arch/run
 
@@ -127,8 +127,8 @@ systemctl enable wpa_supplicant.service
 systemctl enable dhcpcd.service
 systemctl enable sshd.service
 
-pacman -S --noconfirm linux
-mkinitcpio -p linux
+pacman -S --noconfirm linux-zen linux-zen-headers
+mkinitcpio -p linux-zen
 pacman -S grub efibootmgr --noconfirm
 echo 'GRUB_CMDLINE_LINUX="iommu=pt intel_iommu=on pcie_acs_override=downstream,multifunction nofb"' >> /etc/default/grub
 grub-install --target=$(lscpu | head -n1 | sed 's/^[^:]*:[[:space:]]*//')-efi --efi-directory=/boot --removable
