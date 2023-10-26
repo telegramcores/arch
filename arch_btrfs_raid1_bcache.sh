@@ -37,7 +37,7 @@ make-bcache -B /dev/sdb4
 # Допустим, /dev/sdc у нас SSD для кэша, тогда
 #parted -s -- /dev/sdc mkpart primary 1MiB 100%
 #parted -a optimal --script /dev/sdc name 1 bcache
-make-bcache -C /dev/sdс
+make-bcache -C /dev/sdc
 
 # Связываем кэшируемые устройства
 cset_uuid=`bcache-super-show /dev/sdc | grep 'cset' | awk '{print $2}'`
