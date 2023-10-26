@@ -27,8 +27,11 @@
 # HOOKS="... block bcache lvm2 filesystems ..."
 # mkinitcpio -P
 
-
-
+su - user
+cd bcache-tools
+sudo cp bcache-tools-1.1-1-x86_64.pkg.tar.zst /mnt/arch/
+arch-chroot /mnt/arch
+pacman -U bcache-tools-1.1-1-x86_64.pkg.tar.zst
  
  # отключить bcache (как пример)
  # cd /sys/fs/bcache/d5642717-e0f3-412c-85a5-a775c33e7719
