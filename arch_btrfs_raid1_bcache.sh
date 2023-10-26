@@ -50,7 +50,7 @@ mkswap /dev/sda3
 swapon /dev/sda3
 mkfs.btrfs -f -L btrfsraid -m raid1 -d raid1 /dev/bcache0 /dev/bcache1
 
-echo "LABEL=btrfs /mnt/arch btrfs defaults,noatime  0 0" >> /etc/fstab
+echo "LABEL=btrfsraid /mnt/arch btrfs defaults,noatime  0 0" >> /etc/fstab
 systemctl daemon-reload
 mkdir /mnt/arch
 mount /mnt/arch 
