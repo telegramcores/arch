@@ -20,6 +20,15 @@
  # 9 exit
  # появляется команда  make-bcache и все функции работают
 
+
+# nano /etc/mkinitcpio.conf
+# MODULES="bcache"
+# ...
+# HOOKS="... block bcache lvm2 filesystems ..."
+# mkinitcpio -P
+
+
+
  
  # отключить bcache (как пример)
  # cd /sys/fs/bcache/d5642717-e0f3-412c-85a5-a775c33e7719
