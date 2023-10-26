@@ -1,22 +1,24 @@
 #https://gist.github.com/HardenedArray/4c1492f537d9785e19406eb5cd991735?permalink_comment_id=3298538
-#mount -o remount,size=8G /run/archiso/cowspace
-#pacman -Syu base-devel git --ignore linux
+# 1 mount -o remount,size=8G /run/archiso/cowspace
+# 2 pacman -Syu base-devel git --ignore linux --noconfirm
 
  
  # Create a new User:
- #   useradd -m -G wheel -s /bin/bash user
+ # 3 useradd -m -G wheel -s /bin/bash user
     # then:
- #   passwd user
+ # 4  passwd user
     # then, since we will require sudo for vital future steps, do:
- #   EDITOR=nano visudo
+ # 5 EDITOR=nano visudo
     # and add:
  #   user ALL=(ALL) ALL
     # under User privilege specification.  Save the /etc/sudoers.tmp file.
     # Use ctrl-alt-f3, and login as 'user'
     # Build and install bcache-tools from AUR:
- #   git clone https://aur.archlinux.org/bcache-tools.git
- #   cd bcache-tools/
- #   makepkg -sri
+ # 6   git clone https://aur.archlinux.org/bcache-tools.git
+ # 7   cd bcache-tools/
+ # 8  makepkg -sri
+ # 9 exit
+ # появляется команда  make-bcache и все функции работают
 
  
  # отключить bcache (как пример)
