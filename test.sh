@@ -1,3 +1,30 @@
+ # Create a new User:
+    useradd -m -G wheel -s /bin/bash user
+    # then:
+    passwd user
+    # then, since we will require sudo for vital future steps, do:
+    EDITOR=nano visudo
+    # and add:
+    user ALL=(ALL) ALL
+    # under User privilege specification.  Save the /etc/sudoers.tmp file.
+    # Use ctrl-alt-f3, and login as 'user'
+    # Build and install bcache-tools from AUR:
+    git clone https://aur.archlinux.org/bcache-tools.git
+    cd bcache-tools/
+    makepkg -sri
+
+
+
+
+
+
+
+
+
+
+
+
+
 loadkeys ru
 setfont cyr-sun16
 
