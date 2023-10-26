@@ -1,7 +1,7 @@
 loadkeys ru
 setfont cyr-sun16
 
-# Устанавливаем yay для возможности использования bcache-tools
+# Устанавливаем bcache-tools
 pacman -S --needed --noconfirm base-devel 
 git clone https://aur.archlinux.org/bcache-tools.git
 cd bcache-tools
