@@ -3,11 +3,10 @@ setfont cyr-sun16
 
 # Устанавливаем yay для возможности использования bcache-tools
 pacman -S --needed --noconfirm base-devel 
-git clone https://aur.archlinux.org/yay.git
-cd yay
+git clone https://aur.archlinux.org/bcache-tools.git
+cd bcache-tools
 makepkg -sri --noconfirm
-cd /
-yay -S --noconfirm bcache-tools
+cd ~
 
 
 # Разметка диска (здесь требуется перечислить диски, которые будут формировать raid1, в данном случае как пример sda и sdb)
