@@ -7,7 +7,7 @@ git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -sri --noconfirm
 cd /
-
+yay -S --noconfirm bcache-tools
 
 
 # Разметка диска (здесь требуется перечислить диски, которые будут формировать raid1, в данном случае как пример sda и sdb)
