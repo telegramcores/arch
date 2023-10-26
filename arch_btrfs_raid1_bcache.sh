@@ -36,15 +36,20 @@ make-bcache -B /dev/sda4
 make-bcache -B /dev/sdb4
 
 # Допустим, /dev/sdc у нас SSD для кэша, тогда
-make-bcache -C /dev/sdс
+parted -s -- /dev/sdc mkpart primary 1MiB 100%
+parted -a optimal --script /dev/sdc name 1 bcache
+make-bcache -C /dev/sdс1
 
+# Связываем кэшируемые устройства
+cset_uuid=`bcache-super-show /dev/sdc1 | grep 'cset' | awk '{print $2}'`
+echo $cset_uuid > /sys/block/bcache0/bcache/attach
+echo $cset_uuid > /sys/block/bcache1/bcache/attach
 
-
-
-mkfs.fat -F32 $disk"2"
-mkswap $disk"3"
-swapon $disk"3"
-mkfs.btrfs -f $disk"4" -L btrfs
+mkfs.fat -F32 /dev/sda2
+mkfs.fat -F32 /dev/sdb2
+mkswap /dev/sda3
+swapon /dev/sda3
+mkfs.btrfs -f -L btrfsraid -m raid1 -d raid1 /dev/bcache0 /dev/bcache1
 
 echo "LABEL=btrfs /mnt/arch btrfs defaults,noatime  0 0" >> /etc/fstab
 systemctl daemon-reload
@@ -57,12 +62,12 @@ btrfs subvolume create /mnt/arch/@share
 btrfs subvolume create /mnt/arch/@admman
 umount /mnt/arch
 
-mount -o defaults,noatime,autodefrag,discard=async,subvol=@ $disk"4" /mnt/arch
+mount -o defaults,noatime,autodefrag,discard=async,subvol=@ /dev/bcache0 /mnt/arch
 mkdir -p /mnt/arch/{home,var,share,admman}
-mount -o autodefrag,noatime,space_cache=v2,compress=zstd:3,discard=async,subvol=@home $disk"4" /mnt/arch/home
-mount -o autodefrag,noatime,space_cache=v2,compress=zstd:3,discard=async,subvol=@var  $disk"4" /mnt/arch/var
-mount -o autodefrag,noatime,space_cache=v2,compress=zstd:3,discard=async,subvol=@share $disk"4" /mnt/arch/share
-mount -o autodefrag,noatime,space_cache=v2,compress=zstd:3,discard=async,subvol=@admman $disk"4" /mnt/arch/admman
+mount -o autodefrag,noatime,space_cache=v2,compress=zstd:3,discard=async,subvol=@home /dev/bcache0 /mnt/arch/home
+mount -o autodefrag,noatime,space_cache=v2,compress=zstd:3,discard=async,subvol=@var  /dev/bcache0 /mnt/arch/var
+mount -o autodefrag,noatime,space_cache=v2,compress=zstd:3,discard=async,subvol=@share /dev/bcache0 /mnt/arch/share
+mount -o autodefrag,noatime,space_cache=v2,compress=zstd:3,discard=async,subvol=@admman /dev/bcache0 /mnt/arch/admman
 
 pacman -Sy --noconfirm --noprogressbar --quiet reflector
 pacman -S --noconfirm --needed --noprogressbar --quiet reflector
@@ -85,19 +90,18 @@ echo 'LANG="ru_RU.UTF-8"' > /etc/locale.conf
 echo 'KEYMAP=ru' >> /etc/vconsole.conf
 echo 'FONT=cyr-sun16' >> /etc/vconsole.conf
 
-disk="/dev/sda"
-mount $disk"2" /boot
+mount /dev/sda2 /boot
 
 pacman -Syy --noconfirm
 
 echo '/dev/sda2 /boot vfat defaults 0 2' >> /etc/fstab
 echo -e "\e[31m--- Установка soft and settings ---\e[0m"
 echo '/dev/sda3 none swap sw 0 0' >> /etc/fstab
-blkid $disk'4' | awk '{print $3" / btrfs defaults,noatime,autodefrag,space_cache=v2,compress=zstd:3,subvol=@  0 0"}' >> /etc/fstab
-blkid $disk'4' | awk '{print $3" /home btrfs noatime,autodefrag,space_cache=v2,compress=zstd:3,subvol=@home  0 0"}' >> /etc/fstab
-blkid $disk'4' | awk '{print $3" /var btrfs noatime,autodefrag,space_cache=v2,compress=zstd:3,subvol=@var  0 0"}' >> /etc/fstab
-blkid $disk'4' | awk '{print $3" /share btrfs noatime,autodefrag,space_cache=v2,compress=zstd:3,subvol=@share  0 0"}' >> /etc/fstab
-blkid $disk'4' | awk '{print $3" /admman btrfs noatime,autodefrag,space_cache=v2,compress=zstd:3,subvol=@admman  0 0"}' >> /etc/fstab
+blkid /dev/bcache0 | awk '{print $3" / btrfs defaults,noatime,autodefrag,space_cache=v2,compress=zstd:3,subvol=@  0 0"}' >> /etc/fstab
+blkid /dev/bcache0 | awk '{print $3" /home btrfs noatime,autodefrag,space_cache=v2,compress=zstd:3,subvol=@home  0 0"}' >> /etc/fstab
+blkid /dev/bcache0 | awk '{print $3" /var btrfs noatime,autodefrag,space_cache=v2,compress=zstd:3,subvol=@var  0 0"}' >> /etc/fstab
+blkid /dev/bcache0 | awk '{print $3" /share btrfs noatime,autodefrag,space_cache=v2,compress=zstd:3,subvol=@share  0 0"}' >> /etc/fstab
+blkid /dev/bcache0 | awk '{print $3" /admman btrfs noatime,autodefrag,space_cache=v2,compress=zstd:3,subvol=@admman  0 0"}' >> /etc/fstab
 
 echo 'Раскомментируем репозиторий multilib Для работы 32-битных приложений в 64-битной системе.'
 echo '[multilib]' >> /etc/pacman.conf
