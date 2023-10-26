@@ -18,6 +18,12 @@
  #   cd bcache-tools/
  #   makepkg -sri
 
+ 
+ # отключить bcache (как пример)
+ # cd /sys/fs/bcache/d5642717-e0f3-412c-85a5-a775c33e7719
+ # echo 1 > stop
+ # потом можно использовать хоть wipefs
+
 #sudo -u user makepkg -sri --noconfirm
 #sudo -u user git clone https://aur.archlinux.org/bcache-tools.git
 
