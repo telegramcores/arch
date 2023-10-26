@@ -1,26 +1,45 @@
 loadkeys ru
 setfont cyr-sun16
 
-disk="/dev/sda"
-echo "---create disk1 bios_grub ---"
+# Устанавливаем yay для возможности использования bcache-tools
+pacman -S --needed --noconfirm base-devel 
+git clone https://aur.archlinux.org/yay.git
+cd yay
+makepkg -sri --noconfirm
+cd /
+
+
+
+# Разметка диска (здесь требуется перечислить диски, которые будут формировать raid1, в данном случае как пример sda и sdb)
+for disk in /dev/sda /dev/sdb 
+do
+echo "---create "$disk"1 bios_grub ---"
 parted -a optimal --script $disk mklabel gpt
 parted -a optimal --script $disk mkpart primary 1MiB 3MiB
 parted -a optimal --script $disk name 1 grub
 parted -a optimal --script $disk set 1 bios_grub on
-
-echo "---create disk2 boot ---"
+echo "---create "$disk"2 boot ---"
 parted -a optimal --script $disk mkpart primary 3MiB 259MiB
 parted -a optimal --script $disk name 2 boot
 parted -a optimal --script $disk set 2 boot on
-
-echo "---create disk3 swap ---"
+echo "---create "$disk"3 swap ---"
 parted -a optimal --script $disk mkpart primary 259MiB 16GiB
 parted -a optimal --script $disk name 3 swap
-
-echo "---create disk4 btrfs ---"
+echo "---create "$disk"4 raid ---"
 parted -s -- $disk mkpart primary 16GiB 100%
-parted -a optimal --script $disk name 4 btrfs
-#parted -a optimal --script $disk set 4 raid on
+parted -a optimal --script $disk name 4 btrfsraid
+parted -a optimal --script $disk set 4 raid on
+done
+
+# Создаем bcache на основе размеченных дисков
+make-bcache -B /dev/sda4
+make-bcache -B /dev/sdb4
+
+# Допустим, /dev/sdc у нас SSD для кэша, тогда
+make-bcache -C /dev/sdс
+
+
+
 
 mkfs.fat -F32 $disk"2"
 mkswap $disk"3"
