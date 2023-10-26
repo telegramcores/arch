@@ -27,7 +27,7 @@ parted -a optimal --script $disk name 3 swap
 echo "---create "$disk"4 raid ---"
 parted -s -- $disk mkpart primary 16GiB 100%
 parted -a optimal --script $disk name 4 btrfsraid
-parted -a optimal --script $disk set 4 raid on
+#parted -a optimal --script $disk set 4 raid on
 done
 
 # Создаем bcache на основе размеченных дисков
