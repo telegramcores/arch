@@ -1,3 +1,8 @@
+https://gist.github.com/HardenedArray/4c1492f537d9785e19406eb5cd991735?permalink_comment_id=3298538
+mount -o remount,size=8G /run/archiso/cowspace
+pacman -Syu base-devel git --ignore linux
+
+ 
  # Create a new User:
     useradd -m -G wheel -s /bin/bash user
     # then:
@@ -17,8 +22,8 @@
 
 
 
-sudo -u nobody makepkg -sri --noconfirm
-
+sudo -u user makepkg -sri --noconfirm
+sudo -u user git clone https://aur.archlinux.org/bcache-tools.git
 
 
 
@@ -30,7 +35,7 @@ setfont cyr-sun16
 
 # Устанавливаем yay для возможности использования bcache-tools
 mount -o remount,size=8G /run/archiso/cowspace
-pacman -S --needed --noconfirm base-devel 
+pacman -S --needed --noconfirm base-devel linux-zen 
 git clone https://aur.archlinux.org/yay.git
 cd yay
 makepkg -sri --noconfirm
