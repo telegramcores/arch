@@ -17,7 +17,7 @@
 
 
 
-
+sudo -u nobody makepkg -sri --noconfirm
 
 
 
@@ -29,6 +29,7 @@ loadkeys ru
 setfont cyr-sun16
 
 # Устанавливаем yay для возможности использования bcache-tools
+mount -o remount,size=8G /run/archiso/cowspace
 pacman -S --needed --noconfirm base-devel 
 git clone https://aur.archlinux.org/yay.git
 cd yay
