@@ -1,46 +1,37 @@
-https://gist.github.com/HardenedArray/4c1492f537d9785e19406eb5cd991735?permalink_comment_id=3298538
-mount -o remount,size=8G /run/archiso/cowspace
-pacman -Syu base-devel git --ignore linux
+#https://gist.github.com/HardenedArray/4c1492f537d9785e19406eb5cd991735?permalink_comment_id=3298538
+#mount -o remount,size=8G /run/archiso/cowspace
+#pacman -Syu base-devel git --ignore linux
 
  
  # Create a new User:
-    useradd -m -G wheel -s /bin/bash user
+ #   useradd -m -G wheel -s /bin/bash user
     # then:
-    passwd user
+ #   passwd user
     # then, since we will require sudo for vital future steps, do:
-    EDITOR=nano visudo
+ #   EDITOR=nano visudo
     # and add:
-    user ALL=(ALL) ALL
+ #   user ALL=(ALL) ALL
     # under User privilege specification.  Save the /etc/sudoers.tmp file.
     # Use ctrl-alt-f3, and login as 'user'
     # Build and install bcache-tools from AUR:
-    git clone https://aur.archlinux.org/bcache-tools.git
-    cd bcache-tools/
-    makepkg -sri
+ #   git clone https://aur.archlinux.org/bcache-tools.git
+ #   cd bcache-tools/
+ #   makepkg -sri
 
-
-
-
-
-sudo -u user makepkg -sri --noconfirm
-sudo -u user git clone https://aur.archlinux.org/bcache-tools.git
-
-
-
-
-
+#sudo -u user makepkg -sri --noconfirm
+#sudo -u user git clone https://aur.archlinux.org/bcache-tools.git
 
 loadkeys ru
 setfont cyr-sun16
 
 # Устанавливаем yay для возможности использования bcache-tools
-mount -o remount,size=8G /run/archiso/cowspace
-pacman -S --needed --noconfirm base-devel linux-zen 
-git clone https://aur.archlinux.org/yay.git
-cd yay
-makepkg -sri --noconfirm
-cd /
-yay -S --noconfirm bcache-tools
+#mount -o remount,size=8G /run/archiso/cowspace
+#pacman -S --needed --noconfirm base-devel linux-zen 
+#git clone https://aur.archlinux.org/yay.git
+#cd yay
+#makepkg -sri --noconfirm
+#cd /
+#yay -S --noconfirm bcache-tools
 
 
 # Разметка диска (здесь требуется перечислить диски, которые будут формировать raid1, в данном случае как пример sda и sdb)
