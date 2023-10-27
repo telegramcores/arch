@@ -135,11 +135,12 @@ systemctl enable smb.service
 #настройка wifi
 touch /etc/wpa_supplicant/wpa_supplicant.conf
 wpa_passphrase Keenetic-4742 zamochek >> /etc/wpa_supplicant/wpa_supplicant.conf
-systemctl enable wpa_supplicant.service
+#systemctl enable wpa_supplicant.service
 systemctl enable dhcpcd.service
 systemctl enable sshd.service
 
 pacman -S --noconfirm linux-zen linux-zen-headers
+pacman -U bcache-tools-1.1-1-x86_64.pkg.tar.zst
 mkinitcpio -p linux-zen
 pacman -S grub efibootmgr --noconfirm
 echo 'GRUB_CMDLINE_LINUX="iommu=pt intel_iommu=on pcie_acs_override=downstream,multifunction nofb"' >> /etc/default/grub
@@ -147,11 +148,15 @@ grub-install --target=$(lscpu | head -n1 | sed 's/^[^:]*:[[:space:]]*//')-efi --
 grub-mkconfig -o /boot/grub/grub.cfg
 
 echo -e "\e[31m--- Последний этап установки! ---\e[0m"
-echo -e "\e[31m--- Сделай вход в chroot: chroot /mnt/arch ---\e[0m"
+echo -e "\e[31m--- Сделай вход в chroot: arch-chroot /mnt/arch ---\e[0m"
 echo -e "\e[31m--- Создай пароль root: passwd ---\e[0m"
 echo -e "\e[33m--- Создать пользователя: useradd -m <name> ---\e[0m"
 echo -e "\e[33m--- Создать пароль пользователя: passwd <name> ---\e[0m"
 echo -e "\e[33m--- Добавить права суперпользователя аналогично root: visudo ---\e[0m"
-echo -e "\e[31m--- После ввода пароля наберите exit ---\e[0m"
+echo -e "\e[33m--- Добавить права суперпользователя аналогично root: visudo ---\e[0m"
+echo -e "\e[33m--- Добавить модули в файле: nano /etc/mkinitcpio.conf ---\e[0m"
+echo -e "\e[33m--- MODULES=(bcache) HOOKS=... block bcache lvm2 filesystems ... ---\e[0m"
+echo -e "\e[33m--- Пересоздаем ramdisk - mkinitcpio -P ---\e[0m"
+echo -e "\e[31m--- exit ---\e[0m"
 
 CHROOT
