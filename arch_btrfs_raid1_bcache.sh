@@ -1,14 +1,6 @@
 loadkeys ru
 setfont cyr-sun16
 
-# Устанавливаем bcache-tools
-pacman -S --needed --noconfirm base-devel 
-git clone https://aur.archlinux.org/bcache-tools.git
-cd bcache-tools
-makepkg -sri --noconfirm
-cd ~
-
-
 # Разметка диска (здесь требуется перечислить диски, которые будут формировать raid1, в данном случае как пример sda и sdb)
 for disk in /dev/sda /dev/sdb 
 do
