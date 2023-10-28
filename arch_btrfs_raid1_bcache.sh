@@ -140,7 +140,7 @@ systemctl enable dhcpcd.service
 systemctl enable sshd.service
 
 pacman -S --noconfirm linux-zen linux-zen-headers
-pacman -U bcache-tools-1.1-1-x86_64.pkg.tar.zst
+pacman -U --noconfirm bcache-tools-1.1-1-x86_64.pkg.tar.zst
 mkinitcpio -p linux-zen
 pacman -S grub efibootmgr --noconfirm
 echo 'GRUB_CMDLINE_LINUX="iommu=pt intel_iommu=on pcie_acs_override=downstream,multifunction nofb"' >> /etc/default/grub
