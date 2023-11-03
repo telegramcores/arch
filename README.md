@@ -15,7 +15,7 @@
    
    **useradd -m -G wheel -s /bin/bash user**
    
-   **usermod --password 123 user** // пароль для user - 123
+   **passwd user** // пароль для user - 123
    
    **EDITOR=nano visudo** // прописываем **user ALL=(ALL) ALL**
    
