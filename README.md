@@ -1,13 +1,20 @@
 # arch
 ## Предварительная настройка для установки RAID на bcache
 сеть как пример (статический IP c gateway):
+
 nano /etc/systemd/network/20-ethernet.network
+
 [Network]
+
 Address=192.168.10.16/24
+
 Gateway=192.168.10.8
+
 DNS=192.168.10.8
 
+
 systemctl restart systemd-networkd.service 
+
 ping ya.ru
 
 Сеть настроена, доступ в Интернет есть - действуем далее:
