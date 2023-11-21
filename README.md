@@ -24,7 +24,7 @@ ping ya.ru
 
 2. Дополнительные пакеты
    
-   **pacman -Syu base-devel git --ignore linux --noconfirm**
+   **pacman -Syu base-devel git --ignore linux,linux-firmware,linux-firmware-marvell,linux-firmware-whence --noconfirm**
    
    **mkdir /mnt/arch**
    
